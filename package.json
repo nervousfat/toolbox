@@ -1,0 +1,16 @@
+{
+  "name": "demo-toolbox",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "JSON、CSV、文本编码与颜色转换",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test core.test.js",
+    "check": "node --check core.js && node --check app.js && node --check server.mjs && node --check history.mjs",
+    "history": "node history.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
