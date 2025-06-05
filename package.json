@@ -6,7 +6,7 @@
   "description": "JSON、CSV、文本编码与颜色转换",
   "scripts": {
     "start": "node server.mjs",
-    "test": "node --test core.test.js",
+    "test": "node --test",
     "check": "node --check core.js && node --check app.js && node --check server.mjs && node --check history.mjs",
     "history": "node history.mjs"
   },
