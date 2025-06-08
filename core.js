@@ -8,3 +8,13 @@ export function prettyJson(text, spaces = 2) {
   return result;
 }
 
+export function compactJson(text) {
+  if (typeof text !== 'string') throw new TypeError('请输入 JSON 文本');
+  const value = JSON.parse(text);
+  const compact = JSON.stringify(value);
+  const before = new TextEncoder().encode(text).length;
+  const after = new TextEncoder().encode(compact).length;
+  const saved = Math.max(0, before - after);
+  return { text: compact, before, after, saved };
+}
+
