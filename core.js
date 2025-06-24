@@ -18,3 +18,18 @@ export function compactJson(text) {
   return { text: compact, before, after, saved };
 }
 
+export function inspectJson(text) {
+  const root = JSON.parse(text);
+  const pending = [{ value: root, depth: 0 }];
+  const result = { objects: 0, arrays: 0, values: 0, depth: 0 };
+  while (pending.length) {
+    const { value, depth } = pending.pop();
+    result.depth = Math.max(result.depth, depth);
+    if (value && typeof value === 'object') {
+      result[Array.isArray(value) ? 'arrays' : 'objects']++;
+      for (const child of Object.values(value)) pending.push({ value: child, depth: depth + 1 });
+    } else result.values++;
+  }
+  return result;
+}
+
