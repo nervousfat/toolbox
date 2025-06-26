@@ -33,3 +33,26 @@ export function inspectJson(text) {
   return result;
 }
 
+export function parseCsv(text) {
+  if (typeof text !== 'string') throw new TypeError('请输入 CSV 文本');
+  text = text.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  if (!text) return [];
+  const rows = []; let row = []; let field = ''; let quoted = false; let closed = false;
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    if (quoted) {
+      if (char === '"' && text[i + 1] === '"') { field += '"'; i++; }
+      else if (char === '"') { quoted = false; closed = true; }
+      else field += char;
+    } else if (char === ',' || char === '\n') {
+      row.push(field); field = ''; closed = false;
+      if (char === '\n') { rows.push(row); row = []; }
+    } else if (char === '"' && field === '' && !closed) quoted = true;
+    else if (closed || char === '"') throw new Error('CSV 引号位置不正确');
+    else field += char;
+  }
+  if (quoted) throw new Error('CSV 引号未闭合');
+  if (!text.endsWith('\n') || row.length || field || closed) { row.push(field); rows.push(row); }
+  return rows;
+}
+
