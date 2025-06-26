@@ -56,3 +56,15 @@ export function parseCsv(text) {
   return rows;
 }
 
+export function csvToJson(text) {
+  const [headers, ...rows] = parseCsv(text);
+  if (!headers) return '[]';
+  if (headers.some(name => !name.trim())) throw new Error('CSV 表头不能为空');
+  if (new Set(headers).size !== headers.length) throw new Error('CSV 表头不能重复');
+  const records = rows.map((row, index) => {
+    if (row.length !== headers.length) throw new Error('第 ' + (index + 2) + ' 行列数不一致');
+    return Object.fromEntries(headers.map((name, col) => [name, row[col]]));
+  });
+  return JSON.stringify(records, null, 2);
+}
+
