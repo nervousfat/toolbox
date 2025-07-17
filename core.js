@@ -68,3 +68,18 @@ export function csvToJson(text) {
   return JSON.stringify(records, null, 2);
 }
 
+export function jsonToCsv(text) {
+  const records = JSON.parse(text);
+  if (!Array.isArray(records) || records.some(row => !row || typeof row !== 'object' || Array.isArray(row))) {
+    throw new Error('JSON 必须是对象数组');
+  }
+  const headers = [...new Set(records.flatMap(row => Object.keys(row)))];
+  if (!headers.length) return '';
+  const quote = value => {
+    let cell = value == null ? '' : typeof value === 'object' ? JSON.stringify(value) : String(value);
+    if (/^[\s]*[=+@-]/.test(cell)) cell = "'" + cell;
+    return '"' + cell.replaceAll('"', '""') + '"';
+  };
+  return [headers, ...records.map(row => headers.map(key => row[key]))].map(row => row.map(quote).join(',')).join('\r\n');
+}
+
