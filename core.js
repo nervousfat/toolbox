@@ -80,6 +80,6 @@ export function jsonToCsv(text) {
     if (/^[\s]*[=+@-]/.test(cell)) cell = "'" + cell;
     return '"' + cell.replaceAll('"', '""') + '"';
   };
-  return [headers, ...records.map(row => headers.map(key => row[key]))].map(row => row.map(quote).join(',')).join('\r\n');
+  return [headers, ...records.map(row => headers.map(key => Object.hasOwn(row, key) ? row[key] : undefined))].map(row => row.map(quote).join(',')).join('\r\n');
 }
 
