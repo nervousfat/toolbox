@@ -83,3 +83,14 @@ export function jsonToCsv(text) {
   return [headers, ...records.map(row => headers.map(key => Object.hasOwn(row, key) ? row[key] : undefined))].map(row => row.map(quote).join(',')).join('\r\n');
 }
 
+export function encodeBase64(text) {
+  if (typeof text !== 'string') throw new TypeError('请输入文本');
+  const bytes = new TextEncoder().encode(text);
+  const chunks = [];
+  for (let start = 0; start < bytes.length; start += 8192) {
+    const slice = bytes.subarray(start, start + 8192);
+    chunks.push(String.fromCharCode(...slice));
+  }
+  return btoa(chunks.join(''));
+}
+
