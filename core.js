@@ -94,3 +94,14 @@ export function encodeBase64(text) {
   return btoa(chunks.join(''));
 }
 
+export function decodeBase64(text) {
+  const clean = String(text).replace(/\s/g, '');
+  if (!/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(clean)) {
+    throw new Error('Base64 格式不正确');
+  }
+  const binary = atob(clean);
+  if (btoa(binary) !== clean) throw new Error('Base64 尾部位不正确');
+  const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
+  return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+}
+
