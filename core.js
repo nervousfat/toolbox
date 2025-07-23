@@ -102,6 +102,6 @@ export function decodeBase64(text) {
   const binary = atob(clean);
   if (btoa(binary) !== clean) throw new Error('Base64 尾部位不正确');
   const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
-  return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+  return new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(bytes);
 }
 
