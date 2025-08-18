@@ -105,3 +105,13 @@ export function decodeBase64(text) {
   return new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(bytes);
 }
 
+export function encodeUrl(text) {
+  if (typeof text !== 'string') throw new TypeError('请输入文本');
+  try {
+    const encoded = encodeURIComponent(text);
+    return encoded.replace(/[!'()*]/g, char => '%' + char.charCodeAt(0).toString(16).toUpperCase());
+  } catch {
+    throw new Error('文本包含无效的 Unicode 字符');
+  }
+}
+
