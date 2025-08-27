@@ -115,3 +115,13 @@ export function encodeUrl(text) {
   }
 }
 
+export function decodeUrl(text) {
+  if (typeof text !== 'string') throw new TypeError('请输入文本');
+  try {
+    const decoded = decodeURIComponent(text);
+    return decoded;
+  } catch {
+    throw new Error('URL 编码不完整或不是有效 UTF-8');
+  }
+}
+
