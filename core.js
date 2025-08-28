@@ -125,3 +125,15 @@ export function decodeUrl(text) {
   }
 }
 
+export function escapeHtml(text) {
+  if (typeof text !== 'string') throw new TypeError('请输入文本');
+  const entities = new Map([
+    ['&', '&amp;'],
+    ['<', '&lt;'],
+    ['>', '&gt;'],
+    ['"', '&quot;'],
+    ["'", '&#39;']
+  ]);
+  return text.replace(/[&<>"']/g, char => entities.get(char));
+}
+
