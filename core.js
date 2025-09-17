@@ -137,3 +137,15 @@ export function escapeHtml(text) {
   return text.replace(/[&<>"']/g, char => entities.get(char));
 }
 
+export function unescapeHtml(text) {
+  const names = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: '\u00a0' };
+  return String(text).replace(/&(#x[\da-f]+|#\d+|amp|lt|gt|quot|apos|nbsp);/gi, (match, value) => {
+    if (!value.startsWith('#')) return names[value.toLowerCase()];
+    const point = value[1].toLowerCase() === 'x' ? parseInt(value.slice(2), 16) : Number(value.slice(1));
+    if (point < 1 || point > 0x10ffff || (point >= 0xd800 && point <= 0xdfff)) {
+      return '\ufffd';
+    }
+    return String.fromCodePoint(point);
+  });
+}
+
