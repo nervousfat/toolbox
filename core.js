@@ -149,3 +149,13 @@ export function unescapeHtml(text) {
   });
 }
 
+export function slugify(text) {
+  if (typeof text !== 'string') throw new TypeError('请输入文本');
+  const normalized = text.normalize('NFKD');
+  const unaccented = normalized.replace(/\p{M}+/gu, '');
+  const lowercase = unaccented.toLowerCase().trim();
+  const separated = lowercase.replace(/[^\p{L}\p{N}]+/gu, '-');
+  const trimmed = separated.replace(/^-+|-+$/g, '');
+  return trimmed;
+}
+
