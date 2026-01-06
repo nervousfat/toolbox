@@ -159,3 +159,15 @@ export function slugify(text) {
   return trimmed;
 }
 
+export function textStats(text) {
+  const graphemes = new Intl.Segmenter('zh', { granularity: 'grapheme' });
+  const words = new Intl.Segmenter('zh', { granularity: 'word' });
+  return {
+    characters: [...text].length,
+    graphemes: [...graphemes.segment(text)].length,
+    words: [...words.segment(text)].filter(part => part.isWordLike).length,
+    lines: text ? text.split(/\r\n|\r|\n/).length : 0,
+    bytes: new TextEncoder().encode(text).length
+  };
+}
+
