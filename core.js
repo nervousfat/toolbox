@@ -183,3 +183,14 @@ export function uniqueLines(text, ignoreCase = false) {
   return output.join('\n');
 }
 
+export function sortLines(text, descending = false) {
+  if (typeof text !== 'string') throw new TypeError('请输入文本');
+  const lines = text.split(/\r\n|\r|\n/);
+  const collator = new Intl.Collator('zh', { numeric: true, sensitivity: 'base' });
+  lines.sort((left, right) => {
+    const order = collator.compare(left, right);
+    return descending ? -order : order;
+  });
+  return lines.join('\n');
+}
+
