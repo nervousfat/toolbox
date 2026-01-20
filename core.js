@@ -171,3 +171,15 @@ export function textStats(text) {
   };
 }
 
+export function uniqueLines(text, ignoreCase = false) {
+  const seen = new Set();
+  const output = [];
+  for (const line of String(text).split(/\r\n|\r|\n/)) {
+    const key = ignoreCase ? line.toLocaleLowerCase('en') : line;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    output.push(line);
+  }
+  return output.join('\n');
+}
+
