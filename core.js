@@ -194,3 +194,14 @@ export function sortLines(text, descending = false) {
   return lines.join('\n');
 }
 
+export function hexToRgb(text) {
+  let hex = String(text).trim().replace(/^#/, '');
+  if (!/^(?:[\da-f]{3}|[\da-f]{6})$/i.test(hex)) {
+    throw new Error('请输入三位或六位十六进制颜色');
+  }
+  if (hex.length === 3) hex = [...hex].map(char => char + char).join('');
+  const channels = [0, 2, 4].map(offset => parseInt(hex.slice(offset, offset + 2), 16));
+  const [r, g, b] = channels;
+  return { r, g, b };
+}
+
