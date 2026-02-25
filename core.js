@@ -216,3 +216,16 @@ export function rgbToHex(r, g, b) {
   return '#' + parts.join('');
 }
 
+export function contrastRatio(first, second) {
+  const luminance = hex => {
+    const { r, g, b } = hexToRgb(hex);
+    const linear = [r, g, b].map(channel => {
+      const value = channel / 255;
+      return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+    });
+    return linear[0] * 0.2126 + linear[1] * 0.7152 + linear[2] * 0.0722;
+  };
+  const a = luminance(first); const b = luminance(second);
+  return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+}
+
