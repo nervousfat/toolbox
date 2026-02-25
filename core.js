@@ -205,3 +205,14 @@ export function hexToRgb(text) {
   return { r, g, b };
 }
 
+export function rgbToHex(r, g, b) {
+  const channels = [r, g, b];
+  for (const channel of channels) {
+    if (!Number.isInteger(channel) || channel < 0 || channel > 255) {
+      throw new Error('RGB 通道应为 0 到 255 的整数');
+    }
+  }
+  const parts = channels.map(channel => channel.toString(16).padStart(2, '0'));
+  return '#' + parts.join('');
+}
+
