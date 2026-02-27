@@ -16,3 +16,7 @@ test('encodeUrl escapes reserved punctuation conservatively', () => {
   assert.equal(core.encodeUrl("a b&c!'()"), 'a%20b%26c%21%27%28%29');
   assert.equal(core.decodeUrl('a%20b%26c%21%27%28%29'), "a b&c!'()");
 });
+test('url helpers reject broken encodings', () => {
+  assert.throws(() => core.decodeUrl('%E4%BD'), /URL 编码不完整或不是有效 UTF-8/);
+  assert.equal(core.decodeUrl(core.encodeUrl('路径/搜索?词')), '路径/搜索?词');
+});
