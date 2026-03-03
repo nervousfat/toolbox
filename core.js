@@ -229,3 +229,15 @@ export function contrastRatio(first, second) {
   return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
 }
 
+export function formatBytes(bytes) {
+  if (!Number.isSafeInteger(bytes) || bytes < 0) throw new Error('字节数应为非负安全整数');
+  const units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
+  let value = bytes;
+  let index = 0;
+  while (value >= 1024 && index < units.length - 1) {
+    value /= 1024;
+    index++;
+  }
+  return (index === 0 ? String(value) : value.toFixed(2)) + ' ' + units[index];
+}
+
