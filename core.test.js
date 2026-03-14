@@ -24,3 +24,14 @@ test("JSON compaction measures UTF-8 bytes accurately", () => {
   assert.throws(() => core.compactJson('undefined'));
 });
 
+test("JSON inspection handles null and mixed trees", () => {
+  const result = core.inspectJson('{"a":[1,null,{"b":true}]}');
+  assert.equal(result.objects, 2);
+  assert.equal(result.arrays, 1);
+  assert.equal(result.values, 3);
+  assert.equal(result.depth, 3);
+  assert.deepEqual(core.inspectJson('null'), { objects: 0, arrays: 0, values: 1, depth: 0 });
+  assert.equal(core.inspectJson('[]').arrays, 1);
+  assert.throws(() => core.inspectJson(''));
+});
+
