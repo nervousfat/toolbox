@@ -35,3 +35,14 @@ test("JSON inspection handles null and mixed trees", () => {
   assert.throws(() => core.inspectJson(''));
 });
 
+test("CSV quoted fields retain commas quotes and newlines", () => {
+  const rows = core.parseCsv('name,note\r\n"小明","a,b"\r\n"二","line\n""quoted"""\r\n');
+  assert.deepEqual(rows[0], ['name', 'note']);
+  assert.deepEqual(rows[1], ['小明', 'a,b']);
+  assert.deepEqual(rows[2], ['二', 'line\n"quoted"']);
+  assert.equal(rows.length, 3);
+  assert.deepEqual(core.parseCsv('a,'), [['a', '']]);
+  assert.deepEqual(core.parseCsv(''), []);
+  assert.deepEqual(core.parseCsv('\uFEFFa\nb'), [['a'], ['b']]);
+});
+
