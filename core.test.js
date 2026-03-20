@@ -46,3 +46,14 @@ test("CSV quoted fields retain commas quotes and newlines", () => {
   assert.deepEqual(core.parseCsv('\uFEFFa\nb'), [['a'], ['b']]);
 });
 
+test("CSV rejects ambiguous malformed records", () => {
+  assert.throws(() => core.parseCsv('"abc'));
+  assert.throws(() => core.parseCsv('a"b'));
+  assert.throws(() => core.parseCsv('"a"b'));
+  assert.throws(() => core.csvToJson('a,a\n1,2'));
+  assert.throws(() => core.csvToJson('a,\n1,2'));
+  assert.throws(() => core.csvToJson('a,b\n1'));
+  assert.equal(core.csvToJson(''), '[]');
+  assert.deepEqual(JSON.parse(core.csvToJson('__proto__\nvalue')), [{ ['__proto__']: 'value' }]);
+});
+
