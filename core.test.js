@@ -57,3 +57,14 @@ test("CSV rejects ambiguous malformed records", () => {
   assert.deepEqual(JSON.parse(core.csvToJson('__proto__\nvalue')), [{ ['__proto__']: 'value' }]);
 });
 
+test("CSV exports escaped values and spreadsheet-safe text", () => {
+  const csv = core.jsonToCsv('[{"name":"=SUM(1)","note":"a,b"},{"name":"hello"}]');
+  const rows = core.parseCsv(csv);
+  assert.deepEqual(rows[0], ['name', 'note']);
+  assert.equal(rows[1][0], "'=SUM(1)");
+  assert.equal(rows[1][1], 'a,b');
+  assert.equal(rows[2][1], '');
+  assert.throws(() => core.jsonToCsv('[1]'));
+  assert.equal(core.jsonToCsv('[]'), '');
+});
+
