@@ -80,3 +80,14 @@ test("Base64 round trips Unicode and large inputs", () => {
   assert.throws(() => core.decodeBase64('Zh=='));
 });
 
+test("URL components preserve plus and reject malformed input", () => {
+  const source = '你好 + &/?';
+  assert.equal(core.decodeUrl(core.encodeUrl(source)), source);
+  assert.equal(core.decodeUrl('a+b'), 'a+b');
+  assert.equal(core.encodeUrl("!'()*"), '%21%27%28%29%2A');
+  assert.throws(() => core.decodeUrl('%'));
+  assert.throws(() => core.decodeUrl('%FF'));
+  assert.throws(() => core.encodeUrl('\ud800'));
+  assert.equal(core.decodeUrl(''), '');
+});
+
