@@ -68,3 +68,15 @@ test("CSV exports escaped values and spreadsheet-safe text", () => {
   assert.equal(core.jsonToCsv('[]'), '');
 });
 
+test("Base64 round trips Unicode and large inputs", () => {
+  for (const source of ['', 'hello', '你好 🌿', 'é'.repeat(20000)]) {
+    const encoded = core.encodeBase64(source);
+    assert.equal(core.decodeBase64(encoded), source);
+  }
+  assert.equal(core.encodeBase64('hello'), 'aGVsbG8=');
+  assert.equal(core.decodeBase64(' aGVs\nbG8= '), 'hello');
+  assert.throws(() => core.decodeBase64('Zg='));
+  assert.throws(() => core.decodeBase64('/w=='));
+  assert.throws(() => core.decodeBase64('Zh=='));
+});
+
