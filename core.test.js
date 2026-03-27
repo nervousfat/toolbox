@@ -91,3 +91,14 @@ test("URL components preserve plus and reject malformed input", () => {
   assert.equal(core.decodeUrl(''), '');
 });
 
+test("HTML entities are text and decode only once", () => {
+  const source = '<p title="你好">A & B</p>';
+  assert.equal(core.unescapeHtml(core.escapeHtml(source)), source);
+  assert.equal(core.unescapeHtml('&amp;lt;'), '&lt;');
+  assert.equal(core.unescapeHtml('&#x1f331;'), '🌱');
+  assert.equal(core.unescapeHtml('&#0;'), '\ufffd');
+  assert.equal(core.unescapeHtml('&#xD800;'), '\ufffd');
+  assert.equal(core.unescapeHtml('&unknown;'), '&unknown;');
+  assert.equal(core.escapeHtml("'"), '&#39;');
+});
+
