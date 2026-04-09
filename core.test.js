@@ -113,3 +113,15 @@ test("Slugs preserve Chinese and normalize accented text", () => {
   assert.throws(() => core.slugify(null));
 });
 
+test("Text stats count grapheme clusters independently", () => {
+  const result = core.textStats('👩‍💻');
+  assert.equal(result.graphemes, 1);
+  assert.equal(result.characters, 3);
+  assert.equal(result.bytes, 11);
+  assert.equal(core.textStats('').lines, 0);
+  assert.equal(core.textStats('a\r\nb\rc\n').lines, 4);
+  assert.equal(core.textStats('hello world').words, 2);
+  assert.equal(core.textStats('e\u0301').graphemes, 1);
+  assert.equal(core.textStats('你好').bytes, 6);
+});
+
