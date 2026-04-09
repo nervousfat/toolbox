@@ -102,3 +102,14 @@ test("HTML entities are text and decode only once", () => {
   assert.equal(core.escapeHtml("'"), '&#39;');
 });
 
+test("Slugs preserve Chinese and normalize accented text", () => {
+  assert.equal(core.slugify(' Hello, World! '), 'hello-world');
+  assert.equal(core.slugify('Crème brûlée'), 'creme-brulee');
+  assert.equal(core.slugify('你好 世界'), '你好-世界');
+  assert.equal(core.slugify('one___two'), 'one-two');
+  assert.equal(core.slugify('---'), '');
+  assert.equal(core.slugify('ＡＢＣ'), 'abc');
+  assert.equal(core.slugify('a   b'), 'a-b');
+  assert.throws(() => core.slugify(null));
+});
+
