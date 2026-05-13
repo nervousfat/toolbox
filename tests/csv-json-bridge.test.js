@@ -8,3 +8,8 @@ test('csvToJson builds records and guards headers', () => {
   assert.throws(() => core.csvToJson('a,b\n1'), /第 2 行列数不一致/);
   assert.equal(core.csvToJson(''), '[]');
 });
+test('jsonToCsv quotes cells and defuses formulas', () => {
+  assert.equal(core.jsonToCsv('[{"a":1,"b":"x"}]'), '"a","b"\r\n"1","x"');
+  assert.ok(core.jsonToCsv('[{"a":"=SUM(A1)"}]').includes("'=SUM(A1)"));
+  assert.throws(() => core.jsonToCsv('{"a":1}'), /JSON 必须是对象数组/);
+});
