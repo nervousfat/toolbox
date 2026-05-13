@@ -9,3 +9,8 @@ test('formatBytes picks binary units', () => {
   assert.equal(core.formatBytes(1048576), '1.00 MiB');
   assert.equal(core.formatBytes(5 * 1073741824), '5.00 GiB');
 });
+test('formatBytes validates its input', () => {
+  assert.throws(() => core.formatBytes(-1), /字节数应为非负安全整数/);
+  assert.throws(() => core.formatBytes(1.5), /字节数应为非负安全整数/);
+  assert.equal(core.formatBytes(1536), '1.50 KiB');
+});
