@@ -125,3 +125,14 @@ test("Text stats count grapheme clusters independently", () => {
   assert.equal(core.textStats('你好').bytes, 6);
 });
 
+test("Line utilities keep stable deduplication and numeric sorting", () => {
+  assert.equal(core.uniqueLines('A\nb\nA'), 'A\nb');
+  assert.equal(core.uniqueLines('A\na', true), 'A');
+  assert.equal(core.uniqueLines('a\n a'), 'a\n a');
+  assert.equal(core.uniqueLines('a\r\na'), 'a');
+  assert.equal(core.sortLines('10\n2\n1'), '1\n2\n10');
+  assert.equal(core.sortLines('1\n2\n10', true), '10\n2\n1');
+  assert.equal(core.uniqueLines(''), '');
+  assert.equal(core.sortLines(''), '');
+});
+
