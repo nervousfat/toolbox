@@ -136,3 +136,14 @@ test("Line utilities keep stable deduplication and numeric sorting", () => {
   assert.equal(core.sortLines(''), '');
 });
 
+test("Color conversion validates all RGB channels", () => {
+  assert.deepEqual(core.hexToRgb('#abc'), { r: 170, g: 187, b: 204 });
+  assert.deepEqual(core.hexToRgb('FFFFFF'), { r: 255, g: 255, b: 255 });
+  assert.equal(core.rgbToHex(0, 16, 255), '#0010ff');
+  assert.throws(() => core.hexToRgb('#abcd'));
+  assert.throws(() => core.hexToRgb('zzzzzz'));
+  assert.throws(() => core.rgbToHex(256, 0, 0));
+  assert.throws(() => core.rgbToHex(1.5, 0, 0));
+  assert.throws(() => core.rgbToHex('1', 0, 0));
+});
+
