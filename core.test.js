@@ -147,3 +147,14 @@ test("Color conversion validates all RGB channels", () => {
   assert.throws(() => core.rgbToHex('1', 0, 0));
 });
 
+test("Contrast and byte formatting preserve boundary values", () => {
+  assert.equal(core.contrastRatio('#000', '#fff'), 21);
+  assert.equal(core.contrastRatio('#fff', '#fff'), 1);
+  assert.equal(core.contrastRatio('#fff', '#000'), 21);
+  assert.equal(core.formatBytes(0), '0 B');
+  assert.equal(core.formatBytes(1024), '1.00 KiB');
+  assert.equal(core.formatBytes(1536), '1.50 KiB');
+  assert.throws(() => core.formatBytes(-1));
+  assert.throws(() => core.formatBytes(Infinity));
+});
+
