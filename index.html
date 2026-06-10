@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="在浏览器本地处理 JSON、CSV、Unicode 文本和颜色的轻量工具箱。">
+  <title>开发工具箱 · Little utilities</title>
+  <link rel="stylesheet" href="./base.css">
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body><main>
+  <header><strong>◈ 开发工具箱</strong><span class="badge">本地处理 · 无需登录</span></header>
+  <section class="hero"><div class="eyebrow">Little utilities / 01</div><h1>小工具，让思路保持流畅。</h1><p class="muted">整理数据、转换编码、检查颜色。所有内容只留在当前浏览器。</p></section>
+  <section class="card controls">
+    <label>选择工具<select id="operation" aria-controls="output"></select></label>
+    <div class="toolbar"><button id="run" type="button">转换内容 <span aria-hidden="true">↗</span></button><button id="sample" class="secondary" type="button">填入示例</button><button id="clear" class="secondary" type="button">清空</button></div>
+  </section>
+  <p id="description" class="muted"></p>
+  <section class="workspace">
+    <div class="card stack"><div class="row"><h2>输入</h2><span id="input-stats" class="muted"></span></div><label for="input" class="sr-only">待转换的文本</label><textarea id="input" spellcheck="false" placeholder="输入内容，或者先试试示例…"></textarea><small>Ctrl / ⌘ + Enter 执行转换 · 最多 1 MB 文本</small></div>
+    <div class="card stack"><div class="row"><h2>结果</h2><span id="output-stats" class="muted"></span></div><label for="output" class="sr-only">转换结果</label><textarea id="output" readonly spellcheck="false" placeholder="转换结果会显示在这里"></textarea><div class="toolbar"><button id="copy" class="secondary" type="button" disabled>复制结果</button><button id="download" class="secondary" type="button" disabled>下载结果</button><button id="swap" class="secondary" type="button" disabled>结果作为输入</button></div></div>
+  </section>
+  <p id="status" role="status" aria-live="polite">选择一个工具开始。</p>
+  <section id="help" class="card"></section>
+  <footer>独立 demo · 原生 JavaScript · 不保存输入内容</footer>
+</main></body>
+</html>
