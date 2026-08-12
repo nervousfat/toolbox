@@ -49,3 +49,18 @@ function refreshOutput() {
   for (const id of ['copy', 'download', 'swap']) byId(id).disabled = !available;
   byId('output-stats').textContent = core.formatBytes(new TextEncoder().encode(output.value).length);
 }
+
+function describe() {
+  byId('description').textContent = selected()[3];
+  output.value = '';
+  status.textContent = '已选择：' + selected()[1];
+  refreshOutput();
+}
+operation.addEventListener('change', describe);
+input.addEventListener('keydown', event => {
+  if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+    event.preventDefault();
+    execute();
+  }
+});
+describe();
