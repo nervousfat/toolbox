@@ -64,3 +64,23 @@ input.addEventListener('keydown', event => {
   }
 });
 describe();
+
+byId('copy').addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(output.value);
+    status.textContent = '结果已复制。';
+  } catch {
+    output.focus(); output.select();
+    status.textContent = '无法访问剪贴板，结果已选中，请手动复制。';
+  }
+});
+byId('download').addEventListener('click', () => {
+  const blob = new Blob([output.value], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = selected()[0] + '.' + selected()[5];
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  status.textContent = '已生成结果文件。';
+});
