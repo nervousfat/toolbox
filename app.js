@@ -84,3 +84,22 @@ byId('download').addEventListener('click', () => {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
   status.textContent = '已生成结果文件。';
 });
+
+function refreshInput() {
+  const bytes = new TextEncoder().encode(input.value).length;
+  byId('input-stats').textContent = core.formatBytes(bytes);
+  if (bytes > 1000000) status.textContent = '输入超过 1 MB，请缩短后再转换。';
+}
+input.addEventListener('input', () => {
+  refreshInput();
+  output.value = '';
+  refreshOutput();
+  status.textContent = '输入已更新，请重新转换。';
+});
+byId('swap').addEventListener('click', () => {
+  input.value = output.value;
+  output.value = '';
+  refreshInput(); refreshOutput();
+  status.textContent = '结果已移入输入区，可选择下一个工具。';
+});
+refreshInput();
