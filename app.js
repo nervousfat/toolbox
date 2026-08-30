@@ -103,3 +103,17 @@ byId('swap').addEventListener('click', () => {
   status.textContent = '结果已移入输入区，可选择下一个工具。';
 });
 refreshInput();
+
+byId('sample').addEventListener('click', () => {
+  input.value = selected()[4];
+  refreshInput();
+  execute();
+  input.focus();
+});
+byId('clear').addEventListener('click', () => {
+  input.value = '';
+  output.value = '';
+  refreshInput(); refreshOutput();
+  status.textContent = '输入和结果已清空。';
+  input.focus();
+});
