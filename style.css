@@ -1,0 +1,11 @@
+.controls { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 14px; }
+.controls > label { width: min(100%, 370px); }
+.workspace { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.workspace .row { justify-content: space-between; }
+.workspace h2 { margin: 0; }
+.workspace textarea { min-height: 370px; line-height: 1.7; font-family: Consolas, "Microsoft YaHei", monospace; font-size: .9rem; background: #fafcf9; border-color: #e1e7df; }
+.workspace .stack { align-content: start; }
+#status { min-height: 32px; margin: 20px 0; font-size: .9rem; }
+#help { background: #e9efdf; border-color: #dce4cd; }
+#help p { margin-bottom: 0; }
+@media (max-width: 800px) { .workspace { grid-template-columns: 1fr; } .controls { align-items: stretch; flex-direction: column; } .controls > label { width: 100%; } .workspace textarea { min-height: 240px; } }
