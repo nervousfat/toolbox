@@ -117,3 +117,12 @@ byId('clear').addEventListener('click', () => {
   status.textContent = '输入和结果已清空。';
   input.focus();
 });
+
+const helpTitle = document.createElement('h2');
+helpTitle.textContent = '轻量工具，也有明确边界';
+const helpText = document.createElement('p');
+helpText.textContent = 'JSON 使用 JavaScript 标准解析，大整数请用字符串保存；CSV 的所有字段导入后均为字符串。Base64 是编码，不能保护敏感内容。颜色检查基于不透明 sRGB 颜色。';
+const localText = document.createElement('p');
+localText.className = 'muted';
+localText.textContent = '刷新页面会清空内容。你可以下载结果，或复制到自己的文件中。';
+byId('help').append(helpTitle, helpText, localText);
